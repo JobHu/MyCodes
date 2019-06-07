@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IFitMethodMapper">
+ 
+ <select id="queryAllFitMethod" resultType="FitMethod">
+ 
+ SELECT
+
+    t1.id,t1.fit_name,t1.fit_type,t1.fit_equipment,t1.fit_description
+
+   FROM  fit_method t1
+   
+   <where>
+      <if test="fitName != null and fitName != ''">
+        t1.fit_name = #{fitName}
+      </if>
+   </where>
+ 
+ </select>
+ <insert id="insertFitMethod">
+   insert into fit_method
+   <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fitName != null and fitName != ''">
+       fit_name,
+      </if>
+      <if test="fitType != null and fitType != ''">
+      fit_type,
+      </if>
+      <if test="fitEquipment != null">
+      fit_equipment,
+      </if>
+      <if test="fitDescription != null">
+      fit_description,
+      </if>
+   </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+      <if test="fitName != null and fitName != ''">
+       #{fitName},
+      </if>
+      <if test="fitType != null and fitType != ''">
+      #{fitType},
+      </if>
+      <if test="fitEquipment != null">
+      #{fitEquipment},
+      </if>
+      <if test="fitDescription != null">
+      #{fitDescription},
+      </if>
+   </trim>
+ </insert>
+ <select id="queryDetailById" resultType="FitMethod">
+           SELECT
+              t1.fit_description
+
+           FROM  fit_method t1
+           WHERE
+              t1.id = #{id}
+ </select>
+ <select id="queryAllMethod" resultType="FitMethod">
+     SELECT
+		DISTINCT
+		t1.fit_name
+
+	From fit_method t1 
+ </select>
+</mapper>

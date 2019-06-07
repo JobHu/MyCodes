@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IAerobicMovementMapper">
+ <select id="queryAerobicMovement" resultType="AerobicMovement">
+   SELECT
+        t1.id,t1.create_time,t1.movement_time,t1.remark
+   FROM
+        aerobic_movement t1
+   WHERE
+       t1.u_id =#{userId}
+ </select>
+ <insert id="insertAerobicMovement">
+    insert into aerobic_movement(create_time,movement_time,remark,u_id)
+    values(#{createTime},#{movementTime},#{remark},#{uId})
+ </insert>
+ <delete id="deleteAerobicMovement">
+		 delete from aerobic_movement
+		 where id = #{id}
+ </delete>
+</mapper>

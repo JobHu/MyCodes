@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IAntiGroupMapper">
+  <select id="queryAllAntiGroup" resultType="AntiGroup">
+    SELECT
+	  t1.id,t1.count,t1.create_time,t1.anti_group,t1.training_equipment,
+	  t1.remark,t1.weight
+   FROM
+      anti_group t1
+
+  WHERE
+      t1.u_id = #{userId}
+  </select>
+  <insert id="insertAntiGroup">
+    insert into 
+    anti_group(count,create_time,anti_group,training_equipment,remark,weight,u_id)
+    values(#{count},#{createTime},#{antiGroup},#{trainingEquipment},#{remark},#{weight},#{uId})
+  </insert>
+  <delete id="deleteAntiGroup">
+    delete from anti_group
+    where id = #{id}
+  </delete>
+</mapper>

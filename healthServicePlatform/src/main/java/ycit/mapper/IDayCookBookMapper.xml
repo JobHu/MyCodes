@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IDayCookBookMapper">
+
+   <select id="queryAllCookBook" resultType="DayCookBook">
+      SELECT
+		t1.day_time,t1.drinking,t1.fruit,t1.fruit_time,t1.htmed_type,
+		t1.id,t1.meat,t1.staple_food,t1.u_id,t1.vegetables,t1.whether_drinking,
+		t1.whether_fruit,t1.whether_meat,t1.whether_vegetables 
+     FROM
+       day_cook_book t1 
+   </select>
+   <select id="queryBookCookByHtmedType" resultType="DayCookBook">
+         SELECT
+		t1.day_time,t1.drinking,t1.fruit,t1.fruit_time,t1.htmed_type,
+		t1.id,t1.meat,t1.staple_food,t1.u_id,t1.vegetables,t1.whether_drinking,
+		t1.whether_fruit,t1.whether_meat,t1.whether_vegetables 
+     FROM
+       day_cook_book t1 
+     WHERE
+       htmed_type = #{htmedType}
+   </select>
+   <insert id="insertCookBook">
+      insert into day_cook_book
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+         <if test="htmedType != null">
+            htmed_type,
+         </if>
+         <if test="stapleFood != null">
+          staple_food,
+         </if>
+         <if test="vegetables != null">
+          vegetables,
+         </if>
+         <if test="whetherVegetables !=null">
+           whether_vegetables,
+         </if>
+         <if test="whetherMeat != null">
+          whether_meat,
+         </if>
+         <if test="meat != null">
+             meat,
+         </if>
+         <if test="whetherFruit != null">
+            whether_fruit,
+         </if>
+         <if test="fruit != null">
+           fruit,
+         </if>
+         <if test="fruitTime != null">
+          fruit_time,
+         </if>
+         <if test="whetherDrinking != null">
+          whether_drinking,
+         </if>
+         <if test="drinking != null">
+         drinking,
+         </if>
+         <if test="dayTime != null">
+         day_time,
+         </if>
+         <if test="uId != null">
+         u_id,
+         </if>
+      </trim>
+       <trim prefix="values(" suffix=")" suffixOverrides=",">
+         <if test="htmedType != null">
+            #{htmedType},
+         </if>
+         <if test="stapleFood != null">
+          #{stapleFood},
+         </if>
+         <if test="vegetables != null">
+          #{vegetables},
+         </if>
+         <if test="whetherVegetables !=null">
+           #{whetherVegetables},
+         </if>
+         <if test="whetherMeat != null">
+          #{whetherMeat},
+         </if>
+         <if test="meat != null">
+             #{meat},
+         </if>
+         <if test="whetherFruit != null">
+            #{whetherFruit},
+         </if>
+         <if test="fruit != null">
+           #{fruit},
+         </if>
+         <if test="fruitTime != null">
+          #{fruitTime},
+         </if>
+         <if test="whetherDrinking != null">
+          #{whetherDrinking},
+         </if>
+         <if test="drinking != null">
+         #{drinking},
+         </if>
+         <if test="dayTime != null">
+         #{dayTime},
+         </if>
+         <if test="uId != null">
+            #{uId},
+         </if>
+      </trim>
+   </insert>
+   <delete id="deleteDayCookBookById">
+     delete from day_cook_book
+     where id = #{id}
+   </delete>
+</mapper>

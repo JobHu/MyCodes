@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IPhysicalExaminationMapper">
+  
+  
+  <select id="queryAllPhysicalExamination" resultType="PhysicalExamination">
+      SELECT
+ 
+		t1.age,t1.blood_pressure,t1.blood_sugar,t1.body_fat,
+		t1.chest_x_rays,t1.electrocardiogram,t1.liver_function,
+		t1.weight,t1.white_red_proportion,t1.id,t1.blood_pressure_two
+		   
+	  FROM physical_examination t1,`user` t2
+		
+	  WHERE t1.u_id = t2.id
+		AND t2.id = #{userId}  
+		order by physical_time desc
+  </select>
+  <select id="queryExaminationByUserId" resultType="PhysicalExamination">
+         SELECT
+ 
+			 t1.blood_pressure,t1.blood_sugar,t1.body_fat,
+			 t1.weight,t1.white_red_proportion,t1.physical_time
+			   
+	     FROM physical_examination t1,`user` t2
+		
+	    WHERE t1.u_id = t2.id
+			AND t2.id = #{userId}  
+			order by physical_time 
+  </select>
+  <insert id="insertPhysicalExamination">
+      insert into physical_examination
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="weight != null">
+         weight,
+      </if>
+      <if test="bloodPressure != null">
+        blood_pressure,
+      </if>
+      <if test="bloodSugar != null">
+       blood_sugar,
+      </if>
+      <if test="whiteRedProportion != null">
+      white_red_proportion,
+      </if>
+      <if test="bodyFat != null">
+        body_fat,
+      </if>
+      <if test="age != null">
+         age,
+      </if>
+      <if test="physicalTime != null">
+       physical_time,
+      </if>
+      <if test="electrocardiogram != null and electrocardiogram != ''">
+      electrocardiogram,
+      </if>
+      <if test="liverFunction != null and liverFunction != ''">
+      liver_function,
+      </if>
+      <if test="chestXRays != null and chestXRays != ''">
+      chest_x_rays,
+      </if>
+      <if test="user != null">
+       u_id,
+      </if>
+      <if test="bloodPressureTwo != null">
+       blood_pressure_two,
+      </if>
+      </trim>
+      
+       <trim prefix="values(" suffix=")" suffixOverrides=",">
+      <if test="weight != null">
+         #{weight},
+      </if>
+      <if test="bloodPressure != null">
+        #{bloodPressure},
+      </if>
+      <if test="bloodSugar != null">
+       #{bloodSugar},
+      </if>
+      <if test="whiteRedProportion != null">
+      #{whiteRedProportion},
+      </if>
+      <if test="bodyFat != null">
+        #{bodyFat},
+      </if>
+      <if test="age != null">
+         #{age},
+      </if>
+      <if test="physicalTime != null">
+       #{physicalTime},
+      </if>
+      <if test="electrocardiogram != null and electrocardiogram != ''">
+      #{electrocardiogram},
+      </if>
+      <if test="liverFunction != null and liverFunction != ''">
+      #{liverFunction},
+      </if>
+      <if test="chestXRays != null and chestXRays != ''">
+      #{chestXRays},
+      </if>
+      <if test="user != null">
+       #{user.id},
+      </if>
+      <if test="bloodPressureTwo != null">
+        #{bloodPressureTwo},
+      </if>
+      </trim>
+  </insert>
+  <delete id="deletePhysicalExamination">
+	  delete from physical_examination
+	       where id = #{id}
+  </delete>
+</mapper>
