@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="MyFirstGwt" default="build" basedir=".">
+<project name="MyFirstGwtProject" default="build" basedir=".">
   <!-- Arguments to gwtc and devmode targets -->
   <property name="gwt.args" value="" />
 
@@ -46,7 +46,7 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="com.jobhu.MyFirstGwt"/>
+      <arg value="com.jobhu.MyFirstGwtProject"/>
     </java>
   </target>
 
@@ -58,13 +58,13 @@
         <pathelement location="${gwt.sdk}/gwt-codeserver.jar"/>
       </classpath>
       <arg value="-startupUrl"/>
-      <arg value="MyFirstGwt.html"/>
+      <arg value="MyFirstGwtProject.html"/>
       <arg line="-war"/>
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY, -logLevel DEBUG or -nosuperDevMode -->
       <arg line="${gwt.args}"/>
-      <arg value="com.jobhu.MyFirstGwt"/>
-      <arg value="com.jobhu.MyFirstGwt"/>
+      <arg value="com.jobhu.MyFirstGwtProject"/>
+      <arg value="com.jobhu.MyFirstGwtProject"/>
     </java>
   </target>
 
@@ -75,7 +75,7 @@
       </classpath>
       <arg value="-XonlyEclipse"/>
       <arg value="-ignore"/>
-      <arg value="com.jobhu.MyFirstGwt"/>
+      <arg value="com.jobhu.MyFirstGwtProject"/>
     </java>
   </target>
 
@@ -147,12 +147,12 @@ Test targets suppressed because -junit argument was not specified when running w
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">
-    <zip destfile="MyFirstGwt.war" basedir="war"/>
+    <zip destfile="MyFirstGwtProject.war" basedir="war"/>
   </target>
 
   <target name="clean" description="Cleans this project">
     <delete dir="war/WEB-INF/classes" failonerror="false" />
-    <delete dir="war/myfirstgwt" failonerror="false" />
+    <delete dir="war/myfirstgwtproject" failonerror="false" />
   </target>
 
 </project>
