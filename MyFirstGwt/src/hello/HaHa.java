@@ -9,5 +9,9 @@ public class HaHa {
 	System.out.println(b);
 	
 	System.out.println();
+	
+	
+	System.out.println();
+	System.out.println();
 }
 }
