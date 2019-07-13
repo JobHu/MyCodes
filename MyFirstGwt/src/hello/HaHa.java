@@ -7,5 +7,7 @@ public class HaHa {
 	String hello = "111111";
 	String b =hello.substring(0);
 	System.out.println(b);
+	
+	System.out.println();
 }
 }
