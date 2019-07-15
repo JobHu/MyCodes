@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IProblemMapper">
+
+<resultMap type="Problem" id="userAndProblem">
+      <id column="id" property="id"/>
+      <result column="problem_name" property="problemName"/>
+      <result column="problem_content" property="problemContent"/>
+      <result column="report_time" property="reportTime"/>
+      <result column="comments" property="comments"/>
+      <result column="thumbs" property="thumbs"/>
+      <association property="user" javaType="User">
+         <result column="username" property="username"/>
+      </association>
+</resultMap>
+   <!-- 查询所有的问题 --> 
+   <select id="queryAllProblem" resultMap="userAndProblem">
+               SELECT
+			 t1.id,t1.problem_name,t1.problem_content,t1.report_time,t1.comments,
+			 t1.thumbs,t1.u_id,
+			 t2.username
+	 FROM
+             problem t1,`user` t2
+     WHERE
+             t1.u_id = t2.id
+   </select>
+    <!-- 添加的功能 -->
+    <insert id="insertProblem">
+       insert into problem
+         <trim prefix="(" suffix=")" suffixOverrides=",">
+	          <if test="problemName != null and problemName != ''">
+	              problem_name,
+	          </if>
+	          <if test="problemContent != null and problemContent != ''">
+	            problem_content,
+	          </if>
+	          <if test="reportTime != null">
+	             report_time,
+	          </if>
+	          <if test="uId != null">
+	             u_id,
+	          </if>
+         </trim>
+         <trim prefix="values(" suffix=")" suffixOverrides=",">
+	          <if test="problemName != null and problemName != ''">
+	              #{problemName},
+	          </if>
+	          <if test="problemContent != null and problemContent != ''">
+	              #{problemContent},
+	          </if>
+	          <if test="reportTime != null">
+	             #{reportTime},
+	          </if>
+	          <if test="uId != null">
+	             #{uId},
+	          </if>
+          </trim>
+    </insert>
+    <update id="updateThumbs">
+       update problem
+       set thumbs = thumbs + 1
+       where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IProblemCommentMapper">
+    
+    <resultMap type="ProblemComment" id="uAndPcAndP">
+         <id column="id" property="id"/>
+         <result column="comment_content" property="commentContent"/>
+         <result column="comment_thumbs" property="commentThumbs"/>
+         <result column="comment_time" property="commentTime"/>
+         <association property="user" javaType="User">
+            <result column="username" property="username"/>
+         </association>
+         <association property="problem" javaType="Problem">
+             <result column="problem_name" property="problemName"/>
+         </association>
+    </resultMap>
+    
+    <select id="queryAllProblemComment" resultMap="uAndPcAndP">
+       SELECT
+		  t1.id,t1.comment_content,t1.comment_thumbs,
+		  t1.comment_time,t2.problem_name,t3.username
+	 FROM
+
+		 problem_comment t1,problem t2,`user` t3
+
+	WHERE 
+		t1.p_id = t2.id AND
+		t3.id = t1.u_id AND
+		t2.id = #{id}
+    </select>
+   
+    <insert id="insertProblemComment">
+       insert into problem_comment
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="commentContent != null and commentContent != ''">
+            comment_content,
+          </if>
+          <if test="commentTime != null">
+             comment_time,
+          </if>
+          <if test="pId != null">
+           p_id,
+          </if>
+          <if test="uId != null">
+           u_id,
+          </if>
+       </trim>
+       <trim prefix="values(" suffix=")" suffixOverrides=",">
+          <if test="commentContent != null and commentContent != ''">
+            #{commentContent},
+          </if>
+          <if test="commentTime != null">
+              #{commentTime},
+          </if>
+          <if test="pId != null">
+            #{pId},
+          </if>
+          <if test="uId != null">
+            #{uId},
+          </if>
+       </trim>
+    </insert>
+</mapper>

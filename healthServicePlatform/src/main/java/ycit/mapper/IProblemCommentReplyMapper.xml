@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IProblemCommentReplyMapper">
+ 
+ <resultMap type="ProblemCommentReply" id="pAnduAnduser">
+    <id column="id" property="id"/>
+    <result column="comment_reply_content" property="commentReplyContent"/>
+    <result column="comment_reply_time" property="commentReplyTime"/>
+    <result column="u_id" property="uId"/>
+    <association property="user" javaType="User">
+        <result column="username" property="username"/>
+    </association>
+    <association property="problemComment" javaType="ProblemComment">
+        <result column="comment_content" property="commentContent"/>
+    </association>
+ </resultMap>
+ <select id="queryAllProblemCommentReply" resultMap="pAnduAnduser">
+       SELECT
+			t1.comment_content,t2.id,
+			t2.comment_reply_content,t2.comment_reply_time,
+			t2.u_id ,t3.username
+	   FROM
+            problem_comment t1,problem_comment_reply t2,`user` t3
+       WHERE
+            t1.id = t2.comment_id 
+            AND
+            t3.id =t2.u_id  
+            AND t2.comment_id = #{id}  
+ </select>
+ <!-- 添加评论回复的sql -->
+ <insert id="insertProblemCommentReply">
+       insert into problem_comment_reply
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="commentReplyContent != null and commentReplyContent != ''">
+             comment_reply_content,
+          </if>
+          <if test="commentReplyTime != null">
+            comment_reply_time,
+          </if>
+          <if test="commentId != null">
+            comment_id,
+          </if>
+          <if test="uId != null">
+            u_id,
+          </if>
+       </trim>
+       <trim prefix="values(" suffix=")" suffixOverrides=",">
+          <if test="commentReplyContent != null and commentReplyContent != ''">
+             #{commentReplyContent},
+          </if>
+          <if test="commentReplyTime != null">
+             #{commentReplyTime},
+          </if>
+          <if test="commentId != null">
+             #{commentId},
+          </if>
+          <if test="uId != null">
+             #{uId},
+          </if>
+       </trim>
+ </insert>
+</mapper>

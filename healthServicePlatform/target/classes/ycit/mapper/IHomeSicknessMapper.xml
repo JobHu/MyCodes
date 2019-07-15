@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IHomeSicknessMapper">
+
+<resultMap type="HomeSickness" id="baseHomeSickness">
+    <id column="homeSicknessId" property="id"/>
+    <result column="sickness_name" property="sicknessName"/>
+    <result column="sickness_type" property="sicknessType"/>
+    <result column="sickness_inheritance" property="sicknessInheritance"/>
+    <result column="sickness_attack" property="sicknessAttack"/>
+    <result column="sickness_treat" property="sicknessTreat"/>
+    <result column="sickness_person_count" property="sicknessPersonCount"/>
+</resultMap>
+<resultMap type="HomeSickness" id="allHomeSickness" extends="baseHomeSickness">
+    <association property="member" javaType="Member">
+        <id column="memeberId" property="id"/>
+        <result column="m_name" property="mName"/>
+        <result column="m_relation" property="mRelation"/>
+        <result column="m_sickness_count" property="mSicknessCount"/>
+        <result column="m_status" property="mStatus"/>
+     </association> 
+     <!-- <collection property="members" ofType="Member">
+        <id column="memeberId" property="id"/>
+        <result column="m_name" property="mName"/>
+        <result column="m_relation" property="mRelation"/>
+        <result column="m_sickness_count" property="mSicknessCount"/>
+        <result column="m_status" property="mStatus"/>
+     </collection> -->
+</resultMap>
+ 
+ <select id="queryHomeSickness" resultMap="allHomeSickness">
+ 
+   SELECT
+		t1.sickness_name,t1.sickness_type,t1.sickness_inheritance,t1.sickness_attack,
+		t1.sickness_treat,t1.sickness_person_count,t1.id as homeSicknessId,
+		t2.m_name,t2.m_relation,t2.m_sickness_count,t2.m_status,t2.id as memeberId
+   FROM
+        home_sickness t1,member t2 ,`user` t3
+   WHERE
+     t1.member_id = t2.id and 
+     t2.u_id = t3.id and  t3.id = #{userId}
+ </select>
+ 
+ <insert id="insertHomeSickness">
+   insert into home_sickness
+   <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="sicknessName != null and sicknessName != ''">
+    sickness_name,
+    </if>
+    <if test="sicknessType != null and sicknessType != ''">
+      sickness_type,
+    </if>
+    <if test="sicknessAttack != null">
+    sickness_attack,
+    </if>
+    <if test="sicknessInheritance != null and sicknessInheritance != ''">
+    sickness_inheritance,
+    </if>
+    <if test="sicknessTreat != null and sicknessTreat != ''">
+    sickness_treat,
+    </if>
+     <if test="memberId != null">
+      member_id,
+     </if>
+   </trim>
+   
+   <trim prefix="values(" suffix=")" suffixOverrides=",">
+    <if test="sicknessName != null and sicknessName != ''">
+       #{sicknessName},
+    </if>
+    <if test="sicknessType != null and sicknessType != ''">
+        #{sicknessType},
+    </if>
+    <if test="sicknessAttack != null">
+      #{sicknessAttack},
+    </if>
+    <if test="sicknessInheritance != null and sicknessInheritance != ''">
+      #{sicknessInheritance},
+    </if>
+    <if test="sicknessTreat != null and sicknessTreat != ''">
+      #{sicknessTreat},
+    </if>
+     <if test="memberId != null">
+        #{memberId},
+     </if>
+   </trim>
+ </insert>
+ 
+ <delete id="deleteHomeSickness">
+ delete from home_sickness where
+ member_id = #{memberId}
+ </delete>
+</mapper>

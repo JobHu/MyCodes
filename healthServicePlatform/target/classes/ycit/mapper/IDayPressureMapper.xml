@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IDayPressureMapper">
+ <insert id="addDayBloodPressure">
+ insert into day_pressure
+ <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="dayPressure != null">
+     day_pressure,
+    </if>
+    <if test="dayResult != null">
+      day_result,
+    </if>
+    <if test="dayTime != null">
+      day_time,
+    </if>
+    <if test="uId != null">
+     u_id,
+    </if>
+    <if test="tag != null">
+     tag,
+    </if>
+ </trim>
+ <trim prefix="values(" suffix=")" suffixOverrides=",">
+    <if test="dayPressure != null">
+     #{dayPressure},
+    </if>
+    <if test="dayResult != null">
+      #{dayResult},
+    </if>
+    <if test="dayTime != null">
+      #{dayTime},
+    </if>
+    <if test="uId != null">
+     #{uId},
+    </if>
+     <if test="tag != null">
+     #{tag},
+    </if>
+ </trim>
+ </insert>
+ <select id="queryDayBloodPressureByTime" resultType="DayPressure">
+     select id from day_pressure
+     where day_time = #{newDayTime}
+ </select>
+ <select id="queryDayBloodPressureByAveragePressure" resultType="DayPressure">
+     select id from day_pressure
+     where day_time = #{bloodPressureAverage}
+ </select>
+ <select id="queryDayBloodPressureByTag" resultType="DayPressure">
+   select id from day_pressure
+     where tag = #{tag}
+ </select>
+</mapper>

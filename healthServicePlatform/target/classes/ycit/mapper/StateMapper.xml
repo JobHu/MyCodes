@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IStateMapper">
+  
+  <insert id="addState">
+    insert into state
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+     <if test="mood != null">
+       mood,
+     </if>
+     <if test="workState != null">
+       work_state,
+     </if>
+     <if test="bodyState != null">
+       body_state,
+     </if>
+     <if test="attention != null">
+      attention,
+     </if>
+     <if test="appetite != null">
+      appetite,
+     </if>
+     <if test="sleepId != null">
+     sleep_id,
+     </if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+     <if test="mood != null">
+       #{mood},
+     </if>
+     <if test="workState != null">
+       #{workState},
+     </if>
+     <if test="bodyState != null">
+       #{bodyState},
+     </if>
+     <if test="attention != null">
+      #{attention},
+     </if>
+     <if test="appetite != null">
+      #{appetite},
+     </if>
+     <if test="sleepId != null">
+     #{sleepId},
+     </if>
+    </trim>
+  
+  </insert>
+</mapper>

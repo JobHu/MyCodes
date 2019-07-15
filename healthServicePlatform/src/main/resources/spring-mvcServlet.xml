@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    
+    <!--配置视图解析器  -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/jsp/"></property>
+      <property name="suffix" value=".jsp"></property>
+    </bean>
+    
+     <!-- 配置一个文件上传解析器的bean -->
+    <!-- id必须为multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="2048000"/>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSizePerFile" value="4000000"/>
+    </bean>
+    <!-- servlet3.0的方式进行文件的上传 ，这种需要在web.xml进行最大的上传的文件的大小-->
+   <!--  <bean id="multipartResolver"  class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+      
+    </bean> -->
+    <!--拦截器的配置  -->
+    <mvc:interceptors>
+           <mvc:interceptor>
+                    <mvc:mapping path="/**/*"/>
+                    <bean class="ycit.interceptor.MethodTimerInterceptor"></bean>
+           </mvc:interceptor>
+         <!--   拦截器的顺序很重要  -->
+         <!--  只想拦截user下面的所有，但是要放行登陆 --> 
+          <!--  <mvc:interceptor>
+           <mvc:mapping path="/user/**/*"/>
+           <mvc:exclude-mapping path="/user/login"/>
+           <bean class="ycit.interceptor.SessionInterceptor"></bean>
+           </mvc:interceptor> -->
+    </mvc:interceptors>
+    
+   <context:component-scan base-package="ycit.controller"/>
+    
+      <!-- 将不能处理的静态的请求交给容器处理 -->
+      <mvc:default-servlet-handler/>
+      <!--这个注解是必须要的，配合上面的使用，不然的话，其他的controller的请求都将请求不了  -->
+      <mvc:annotation-driven/>
+</beans>

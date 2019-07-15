@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IHourPressureMapper">
+
+
+<resultMap type="HourPressure" id="hourAndDayBloodPressure">
+          <id column="id" property="id"/>
+          <result column="each_hour" property="eachHour"/>
+          <result column="blood_pressure_hour" property="bloodPressureHour"/>
+          <association property="dayPressure" javaType="DayPressure"> 
+            <result column="day_pressure" property="dayPressure"/>
+            <result column="day_result" property="dayResult"/>
+          </association>
+</resultMap>
+  
+  <select id="queryTwentyFourPressure" resultMap="hourAndDayBloodPressure">
+      SELECT
+           
+			t1.each_hour,t1.blood_pressure_hour,t1.id,
+			
+			t2.day_pressure,t2.day_result
+      FROM
+            hour_pressure t1 ,day_pressure t2
+     where
+
+			t1.day_id =t2.id
+			AND t2.day_time = #{dayTime}
+			AND t2.u_id = #{uId}
+  </select>
+  
+  <insert id="addHourBloodPressure">
+     insert into hour_pressure
+     <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="eachHour != null">
+          each_hour,
+        </if>
+        <if test="bloodPressureHour != null">
+          blood_pressure_hour,
+        </if>
+        <if test="reason != null">
+           reason,
+        </if>
+        <if test="dayId != null">
+          day_id,
+        </if>
+     </trim>
+     
+     <trim prefix="values(" suffix=")" suffixOverrides=",">
+        <if test="eachHour != null">
+          #{eachHour},
+        </if>
+        <if test="bloodPressureHour != null">
+           #{bloodPressureHour},
+        </if>
+        <if test="reason != null">
+            #{reason},
+        </if>
+        <if test="dayId != null">
+           #{dayId},
+        </if>
+     </trim>
+  
+  </insert>
+</mapper>

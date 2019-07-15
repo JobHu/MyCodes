@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IUserMapper">
+
+<insert id="addUser">
+     insert into user(username,usercode,password,loginDate,phone,sex)
+       values(#{username},#{usercode},#{password},#{loginDate},#{phone},#{sex})
+</insert>
+
+<select id="queryUserByUserCode" resultType="User">
+  select *
+   from user 
+   <where>
+   <if test="userCode != null">
+     and usercode = #{userCode}
+   </if>
+   </where>
+</select>
+
+<select id="queryUserByuserCodeAndPwd" resultType="User">
+    select * from 
+    user 
+    <where>
+       <if test="usercode !=null and pwd != null">
+         and usercode = #{usercode}
+         and password = #{pwd}   
+       </if>
+    </where>
+</select>
+</mapper>

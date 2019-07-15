@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IFitPlanMapper">
+  <select id="queryFitPlan" resultType="FitPlan">
+     SELECT
+		  t1.attention,t1.fixed_time,t1.frequency,t1.id,
+		  t1.method_name,t1.m_id,t1.strength
+    FROM
+         fit_plan t1
+    WHERE
+         t1.u_id = #{uId}
+  </select>
+  <insert id="insertFitPlan">
+      insert into fit_plan
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+         <if test="attention != null">
+            attention,
+         </if>
+         <if test="strength != null">
+           strength,
+         </if>
+         <if test="frequency != null">
+           frequency,
+         </if>
+         <if test="fixedTime != null">
+           fixed_time,
+         </if>
+         <if test="methodName != null">
+           method_name,
+         </if>
+         <if test="uId != null">
+           u_id,
+         </if>
+      </trim>
+      <trim prefix="values(" suffix=")" suffixOverrides=",">
+         <if test="attention != null">
+            #{attention},
+         </if>
+         <if test="strength != null">
+           #{strength},
+         </if>
+         <if test="frequency != null">
+           #{frequency},
+         </if>
+         <if test="fixedTime != null">
+          #{fixedTime},
+         </if>
+         <if test="methodName != null">
+           #{methodName},
+         </if>
+         <if test="uId != null">
+           #{uId},
+         </if>
+      </trim>
+  </insert>
+  <delete id="deletePlan">
+     delete from fit_plan
+     where id = #{id}
+  </delete>
+  <select id="selectFitPlanById" resultType="FitPlan">
+    SELECT
+		  t1.attention,t1.fixed_time,t1.frequency,
+		  t1.method_name,t1.strength,t1.id
+    FROM
+         fit_plan t1
+    WHERE
+         t1.id = #{id}
+  </select>
+  <update id="updateFitPlan">
+        update fit_plan set
+        attention = #{attention},
+        fixed_time = #{fixedTime},
+        frequency = #{frequency},
+        method_name = #{methodName},
+        strength = #{strength}    
+        where
+        id = #{id}  
+  </update>
+  <select id="queryFitPlanByMethodName" resultType="FitPlan">
+    SELECT
+		  t1.attention,t1.fixed_time,t1.frequency,
+		  t1.method_name,t1.strength,t1.id
+    FROM
+         fit_plan t1
+    WHERE
+         t1.method_name = #{methodName}
+  </select>
+</mapper>

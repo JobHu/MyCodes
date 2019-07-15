@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.IBloodSugarMapper">
+  <select id="queryAllBloodSugars" resultType="BloodSugar">
+      SELECT
+		t1.breaker_half,t1.break_two,t1.noon_half,t1.noon_two,
+		t1.dinner_half,t1.dinner_two,t1.bed_time,t1.day_time,
+		t1.id
+
+      FROM 
+        blood_sugar t1
+
+     WHERE
+       t1.u_id = #{userId}
+       order by t1.day_time desc
+  </select>
+  <insert id="addBloodSugar">
+  insert into blood_sugar
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+     <if test="breakerHalf != null">
+        breaker_half,
+     </if>
+     <if test="breakTwo != null">
+        break_two,
+     </if>
+     <if test="noonHalf != null">
+        noon_half,
+     </if>
+     <if test="noonTwo != null">
+        noon_two,
+     </if>
+     <if test="dinnerHalf != null">
+        dinner_half,
+     </if>
+     <if test="dinnerTwo != null">
+       dinner_two,
+     </if>
+     <if test="bedTime != null">
+       bed_time,
+     </if>
+     <if test="dayTime != null">
+       day_time,
+     </if>
+     <if test="uId != null">
+       u_id,
+     </if>
+  </trim>
+  
+   <trim prefix="values(" suffix=")" suffixOverrides=",">
+     <if test="breakerHalf != null">
+        #{breakerHalf},
+     </if>
+     <if test="breakTwo != null">
+          #{breakTwo},
+     </if>
+     <if test="noonHalf != null">
+          #{noonHalf},
+     </if>
+     <if test="noonTwo != null">
+          #{noonTwo},
+     </if>
+     <if test="dinnerHalf != null">
+          #{dinnerHalf},
+     </if>
+     <if test="dinnerTwo != null">
+         #{dinnerTwo},
+     </if>
+     <if test="bedTime != null">
+         #{bedTime},
+     </if>
+     <if test="dayTime != null">
+         #{dayTime},
+     </if>
+     <if test="uId != null">
+         #{uId},
+     </if>
+  </trim> 
+  </insert>
+  <select id="queryBloodSugarById" resultType="BloodSugar">
+         SELECT
+		t1.breaker_half,t1.break_two,t1.noon_half,t1.noon_two,
+		t1.dinner_half,t1.dinner_two,t1.bed_time,t1.day_time,
+		t1.id
+
+      FROM 
+        blood_sugar t1
+
+     WHERE
+       t1.id = #{id}
+  </select>
+  <update id="updateBloodSugar" parameterType="BloodSugar">
+    update  blood_sugar
+    set
+    breaker_half = #{breakerHalf},
+    break_two = #{breakTwo},
+    noon_half = #{noonHalf},
+    noon_two = #{noonTwo},
+    dinner_half = #{dinnerHalf},
+    dinner_two = #{dinnerTwo},
+    bed_time = #{bedTime},
+    day_time = #{dayTime}
+    where
+     id =#{id}
+  </update>
+  <select id="queryBloodSugarByDayTime" resultType="BloodSugar">
+       SELECT
+		t1.breaker_half,t1.break_two,t1.noon_half,t1.noon_two,
+		t1.dinner_half,t1.dinner_two,t1.bed_time,t1.day_time,
+		t1.id
+
+      FROM 
+        blood_sugar t1
+
+     WHERE
+      t1.day_time = #{date}
+  </select>
+
+</mapper>

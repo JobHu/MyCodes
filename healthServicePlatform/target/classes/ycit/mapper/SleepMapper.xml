@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ycit.mapper.ISleepMapper">
+
+
+   <resultMap type="Sleep" id="querySleepAndStateAndFactor">
+          <id column="id" property="id"/>
+          <result column="sleep_time" property="sleepTime"/>
+          <result column="sleep_quantity" property="sleepQuantity"/>
+           <result column="last_time" property="lastTime"/>
+          <association property="factor" javaType="Factor">
+            <result column="name" property="name"/>
+            <result column="time" property="time"/>
+          </association>
+          <association property="state" javaType="State">
+             <result column="mood" property="mood"/>
+             <result column="work_state" property="workState"/>
+             <result column="body_state" property="bodyState"/>
+             <result column="appetite" property="appetite"/>
+             <result column="attention" property="attention"/>
+          </association>
+   </resultMap>
+  <select id="queryLastSevenDaySleep" resultMap="querySleepAndStateAndFactor">
+    SELECT
+
+		t1.id,t1.sleep_time,t1.sleep_quantity,t1.last_time,
+		t2.`name`,t2.time,
+		t3.mood,t3.work_state,t3.body_state,t3.appetite,t3.attention
+
+   FROM
+    	sleep t1,factor t2,state t3,`user` t4
+   WHERE
+
+		t1.f_id = t2.id
+		AND t1.id = t3.sleep_id
+		AND DATE_SUB(CURDATE(), INTERVAL 8 DAY) &lt;=t1.last_time
+		AND t4.id = #{userId}
+  </select>
+  <insert id="addSleep">
+    insert into sleep
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="sleepTime != null">
+    sleep_time,
+    </if>
+    <if test="sleepQuantity != null">
+    sleep_quantity,
+    </if>
+    <if test="lastTime != null">
+    last_time,
+    </if>
+    <if test="fId != null">
+    f_id,
+    </if>
+    <if test="uId != null">
+    u_id,
+    </if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+    <if test="sleepTime != null">
+    #{sleepTime},
+    </if>
+    <if test="sleepQuantity != null">
+    #{sleepQuantity},
+    </if>
+    <if test="lastTime != null">
+    #{lastTime},
+    </if>
+    <if test="fId != null">
+    #{fId},
+    </if>
+    <if test="uId != null">
+    #{uId},
+    </if>
+    </trim>
+  </insert>
+  <select id="selectSleepByfId" resultType="Sleep">
+  
+  select id from sleep
+  where f_id = #{fId}
+  
+  </select>
+</mapper>
