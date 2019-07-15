@@ -1,0 +1,2 @@
+serviceClass: com.jobhhu.client.GreetingService
+path: 1AFFE2044A6DFA3915AF8FA3E59745C6.gwt.rpc

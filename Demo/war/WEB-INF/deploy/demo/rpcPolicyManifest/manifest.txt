@@ -1,0 +1,3 @@
+# Module demo
+# RPC service class, partial path of RPC policy file
+com.jobhhu.client.GreetingService, 1AFFE2044A6DFA3915AF8FA3E59745C6.gwt.rpc
