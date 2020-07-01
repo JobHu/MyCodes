@@ -143,7 +143,7 @@
 	<dependency>
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>
-	    <version>5.1.39</version>
+	    <version>8.0.16</version>
 	</dependency>
 	<!--持久层的依赖的导入结束 -->
 	<!--日志的jar包的开始  -->
